@@ -1,0 +1,10 @@
+POST http://localhost:3333/cadastro
+Content-Type: application/json
+
+{
+ "name": "Silvio",
+  "email": "silvio@email.com",
+  "number": 47991819122,
+  "typeFornecedor": "atacadista",
+  "message": "uma boa pra nois"
+}
