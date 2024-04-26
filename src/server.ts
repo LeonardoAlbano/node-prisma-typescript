@@ -1,12 +1,14 @@
 import fastify from "fastify";
 import { z } from "zod"
 import { PrismaClient } from '@prisma/client'
+import { generateSlug } from "./utils/generate-slug";
 
 const app = fastify()
 
 const prisma = new PrismaClient({
     log: ['query'],
 })
+
 
 app.post('/cadastro', async (request, reply) => {
     const createEventSchema = z.object({
@@ -19,6 +21,8 @@ app.post('/cadastro', async (request, reply) => {
 
     const data = createEventSchema.parse(request.body)
 
+    const slug = generateSlug(data.name)
+
     const event = await prisma.fornecedores.create({
         data: {
             name: data.name,
@@ -26,7 +30,7 @@ app.post('/cadastro', async (request, reply) => {
             number: data.number.toString(),
             typeFornecedor: data.typeFornecedor,
             message: data.message,
-            slug: new Date().toISOString(),
+            slug,
         },
     })
 
